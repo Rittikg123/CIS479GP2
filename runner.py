@@ -1,3 +1,9 @@
+import os
+current_directory = os.getcwd()
+
+# Print the current working directory
+print("Current working directory:", current_directory)
+
 import pygame
 import sys
 import time

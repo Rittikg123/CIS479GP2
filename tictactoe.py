@@ -1,6 +1,7 @@
 """
 Tic Tac Toe Player
 """
+#NAME - Rittik Gupta, Shakia Shahid, Abdalla Ibrahim
 
 import math
 import copy

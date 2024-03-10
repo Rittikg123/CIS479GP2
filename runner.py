@@ -12,7 +12,7 @@ import tictactoe as ttt
 
 pygame.init()
 size = width, height = 600, 400 
-
+vis
 # Colors
 black = (0, 0, 0)
 white = (255, 255, 255)

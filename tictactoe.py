@@ -24,21 +24,21 @@ def player(board):
     """
     Returns the player who has the next turn on the board.
     """
-    count_X = sum(row.count('X') for row in board)
-    count_O = sum(row.count('O') for row in board)
+    count_X = sum(row.count('X') for row in board) #finds the sum of x
+    count_O = sum(row.count('O') for row in board) # finds the sum of o
 
-    if count_X == count_O:
+    if count_X == count_O: #if they are equal, returns x
         return 'X'
     else:
-        return 'O'
+        return 'O' # or else returns o
 
 
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    possible_actions = set()
-    for i in range(len(board)):
+    possible_actions = set() #created a set 
+    for i in range(len(board)): #for look to see if the board is empty and if it is, then adds i and j to the set. 
         for j in range(len(board[i])):
             if board[i][j] == EMPTY:
                 possible_actions.add((i, j))
@@ -49,15 +49,15 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-      # Check if action is valid
-    i, j = action
+      # if action is valid or not
+    i, j = action 
     if board[i][j] != EMPTY:
         raise ValueError("Invalid action: cell already occupied")
 
-    # Create a deep copy of the board to avoid modifying the original
+    # a deep copy of the board
     new_board = copy.deepcopy(board)
 
-    # Determine whose turn it is
+    # to see whose turn it is next
     current_player = player(board)
 
     # Apply the action to the new board
@@ -98,10 +98,10 @@ def terminal(board):
     if winner(board) is not None:
         return True
 
-    # Check if the board is fully occupied
+    # Check if the board has empty spaces
     for row in board:
         if EMPTY in row:
-            return False  # Still empty cells, game is not over
+            return False  # Still empty cells, game not over
 
     # If no empty cells are found and there's no winner, it's a tie
     return True
@@ -112,9 +112,9 @@ def utility(board):
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
     winner_player = winner(board)
-    if winner_player == 'X':
+    if winner_player == 'X': # returns 1 winner is X
         return 1
-    elif winner_player == 'O':
+    elif winner_player == 'O': #returns O if winner is O
         return -1
     else:
         return 0
@@ -124,12 +124,13 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    if terminal(board):
+    
+    if terminal(board): #checking to see if terminal state is running
         return None
-
-    current_player = player(board)
-
-    if current_player == 'X':
+    
+    current_player = player(board) #assigning player to a new variable
+    
+    if current_player == 'X': #checking to get the minimum value and finding the better value
         best_value = float('-inf')
         best_action = None
         for action in actions(board):
@@ -137,7 +138,7 @@ def minimax(board):
             if value > best_value:
                 best_value = value
                 best_action = action
-    else:  # current_player == 'O'
+    else:  # current_player == O
         best_value = float('inf')
         best_action = None
         for action in actions(board):
@@ -149,21 +150,21 @@ def minimax(board):
     return best_action
 
 
-def max_value(board):
+def max_value(board): #checking to see if game is in terminal and if it is, it will return utility(board)
     if terminal(board):
         return utility(board)
 
-    v = float('-inf')
-    for action in actions(board):
+    v = float('-inf') #setting the variable to -inf
+    for action in actions(board): #for loop to go over all the possibilites
         v = max(v, min_value(result(board, action)))
     return v
 
 
-def min_value(board):
+def min_value(board): #checking to see if game is in terminal and if it is, it will return utility(board)
     if terminal(board):
         return utility(board)
 
-    v = float('inf')
-    for action in actions(board):
+    v = float('inf') #setting the variable to -inf
+    for action in actions(board): #for loop to go over all the possibilites
         v = min(v, max_value(result(board, action)))
     return v
